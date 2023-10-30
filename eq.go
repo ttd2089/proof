@@ -4,17 +4,17 @@ import (
 	"fmt"
 )
 
-// ExpectNoError logs a test failure if the given expression does not have the expected value.
+// ExpectEq logs a test failure if the expected and actual values are not equal.
 func ExpectEq[T comparable](t TestingT, expr string, actual, expected T) bool {
 	return Expect(t, eqCheck(expr, actual, expected))
 }
 
-// AssertEq fails the test immediately if the given expression does not have the expected value.
+// AssertEq fails the test immediately if the expected and actual values are not equal.
 func AssertEq[T comparable](t TestingT, expr string, actual, expected T) {
 	Assert(t, eqCheck(expr, actual, expected))
 }
 
-// PreconditionEq sets a precondition that the given expression has the expected value.
+// PreconditionEq sets a precondition that the expected and actual values are equal.
 func PreconditionEq[T comparable](t TestingT, expr string, actual, expected T) {
 	Precondition(t, eqCheck(expr, actual, expected))
 }
