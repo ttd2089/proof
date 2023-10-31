@@ -38,6 +38,8 @@ func (m *mockTestingT) Fatalf(format string, args ...any) {
 	m.fatalfCalls = append(m.fatalfCalls, fatalfCall{Format: format, Args: args})
 }
 
+func (m *mockTestingT) Helper() {}
+
 func (m *mockTestingT) Verify(t *testing.T) {
 	verifyCalls(t, "Error", m.expectedErrorCalls, m.errorCalls)
 	verifyCalls(t, "Fatalf", m.expectedFatalfCalls, m.fatalfCalls)

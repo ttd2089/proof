@@ -31,6 +31,7 @@ type ExpectationCheck func() *ExpectationFailure
 // Expect evaluates an ExpectationCheck and returns true if the expectation is met; otherwise, an
 // error is logged, the test is failed, and the function returns false.
 func Expect(t TestingT, check ExpectationCheck) bool {
+	t.Helper()
 	if failure := check(); failure != nil {
 		t.Error(failure)
 		return false
@@ -41,6 +42,7 @@ func Expect(t TestingT, check ExpectationCheck) bool {
 // Assert evaluates an ExpectationCheck, logging the error and failing the test immediately if the
 // expectation is not met.
 func Assert(t TestingT, check ExpectationCheck) {
+	t.Helper()
 	if failure := check(); failure != nil {
 		t.Fatalf(assertionFailedFmt, failure)
 	}
@@ -49,6 +51,7 @@ func Assert(t TestingT, check ExpectationCheck) {
 // Precondition evaluates an ExpectationCheck, logging the error as a precondition failure and
 // failing the test immediately if the expectation is not met.
 func Precondition(t TestingT, check ExpectationCheck) {
+	t.Helper()
 	if failure := check(); failure != nil {
 		t.Fatalf(preconditionFailedFmt, failure)
 	}

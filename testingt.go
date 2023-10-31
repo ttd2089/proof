@@ -6,6 +6,7 @@ import "testing"
 type TestingT interface {
 	Error(args ...any)
 	Fatalf(format string, args ...any)
+	Helper()
 }
 
 var _ TestingT = &testing.T{}

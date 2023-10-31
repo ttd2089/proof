@@ -4,16 +4,19 @@ import "fmt"
 
 // ExpectSetEq logs a test failure if the given set does not equal the expected set.
 func ExpectSetEq[T comparable](t TestingT, expr string, actual, expected []T) bool {
+	t.Helper()
 	return Expect(t, setSetEqCheck(expr, actual, expected))
 }
 
 // AssertSetEq fails the test immediately if the given set does not equal the expected set.
 func AssertSetEq[T comparable](t TestingT, expr string, actual, expected []T) {
+	t.Helper()
 	Assert(t, setSetEqCheck(expr, actual, expected))
 }
 
 // PreconditionSetEq sets a precondition that if the given set equals the expected set.
 func PreconditionSetEq[T comparable](t TestingT, expr string, actual, expected []T) {
+	t.Helper()
 	Precondition(t, setSetEqCheck(expr, actual, expected))
 }
 

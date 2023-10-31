@@ -4,16 +4,19 @@ import "fmt"
 
 // ExpectContains logs a test failure if the given slice does not contain the expected value.
 func ExpectContains[T comparable](t TestingT, expr string, arr []T, expected T) bool {
+	t.Helper()
 	return Expect(t, containsCheck(expr, arr, expected))
 }
 
 // AssertContains fails the test immediately if the given slice does not contain the expected value.
 func AssertContains[T comparable](t TestingT, expr string, arr []T, expected T) {
+	t.Helper()
 	Assert(t, containsCheck(expr, arr, expected))
 }
 
 // PreconditionContains sets a precondition that the given slice contains the expected value.
 func PreconditionContains[T comparable](t TestingT, expr string, arr []T, expected T) {
+	t.Helper()
 	Precondition(t, containsCheck(expr, arr, expected))
 }
 
