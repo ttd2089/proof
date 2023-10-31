@@ -8,7 +8,7 @@ func TestExpectContains(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
 		if !ExpectContains(mt, "", []int{1, 2, 3}, 2) {
-			t.Errorf("expected ExpectNil to return true")
+			t.Errorf("expected ExpectContains to return true")
 		}
 	})
 
@@ -17,7 +17,7 @@ func TestExpectContains(t *testing.T) {
 		defer mt.Verify(t)
 		mt.ExpectError(newContainsFailure("someExpr()", []int{1, 2, 3}, 4))
 		if ExpectContains(mt, "someExpr()", []int{1, 2, 3}, 4) {
-			t.Errorf("expected ExpectNil to return false")
+			t.Errorf("expected ExpectContains to return false")
 		}
 	})
 }
