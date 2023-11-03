@@ -5,10 +5,22 @@ import "testing"
 func TestExpectSetEq(t *testing.T) {
 
 	t.Run("returns true if the given slice is set-equal to the expected set", func(t *testing.T) {
-		mt := &mockTestingT{}
-		defer mt.Verify(t)
-		if !ExpectSetEq(mt, "", []int{1, 2, 3}, []int{1, 2, 3}) {
-			t.Errorf("expected ExpectSetEq to return true")
+		for _, tc := range []struct {
+			name     string
+			actual   []int
+			expected []int
+		}{
+			{name: "identical slices", actual: []int{1, 2, 3}, expected: []int{1, 2, 3}},
+			{name: "same values different order", actual: []int{1, 2, 3}, expected: []int{2, 1, 3}},
+			{name: "duplicate values", actual: []int{1, 2, 2, 3}, expected: []int{1, 2, 3, 3}},
+		} {
+			t.Run(tc.name, func(t *testing.T) {
+				mt := &mockTestingT{}
+				defer mt.Verify(t)
+				if !ExpectSetEq(mt, "", tc.actual, tc.expected) {
+					t.Errorf("expected ExpectSetEq to return true")
+				}
+			})
 		}
 	})
 
@@ -43,9 +55,21 @@ func TestExpectSetEq(t *testing.T) {
 func TestAssertSetEq(t *testing.T) {
 
 	t.Run("does not fail if the given slice is set-equal to the expected set", func(t *testing.T) {
-		mt := &mockTestingT{}
-		defer mt.Verify(t)
-		AssertSetEq(mt, "", []int{1, 2, 3}, []int{1, 2, 3})
+		for _, tc := range []struct {
+			name     string
+			actual   []int
+			expected []int
+		}{
+			{name: "identical slices", actual: []int{1, 2, 3}, expected: []int{1, 2, 3}},
+			{name: "same values different order", actual: []int{1, 2, 3}, expected: []int{2, 1, 3}},
+			{name: "duplicate values", actual: []int{1, 2, 2, 3}, expected: []int{1, 2, 3, 3}},
+		} {
+			t.Run(tc.name, func(t *testing.T) {
+				mt := &mockTestingT{}
+				defer mt.Verify(t)
+				AssertSetEq(mt, "", []int{1, 2, 3}, []int{1, 2, 3})
+			})
+		}
 	})
 
 	t.Run("calls Fatalf and returns false if the given slice contains values not in the expected slice", func(t *testing.T) {
@@ -73,9 +97,21 @@ func TestAssertSetEq(t *testing.T) {
 func TestPreconditionSetEq(t *testing.T) {
 
 	t.Run("does not fail if the given slice is set-equal to the expected set", func(t *testing.T) {
-		mt := &mockTestingT{}
-		defer mt.Verify(t)
-		PreconditionSetEq(mt, "", []int{1, 2, 3}, []int{1, 2, 3})
+		for _, tc := range []struct {
+			name     string
+			actual   []int
+			expected []int
+		}{
+			{name: "identical slices", actual: []int{1, 2, 3}, expected: []int{1, 2, 3}},
+			{name: "same values different order", actual: []int{1, 2, 3}, expected: []int{2, 1, 3}},
+			{name: "duplicate values", actual: []int{1, 2, 2, 3}, expected: []int{1, 2, 3, 3}},
+		} {
+			t.Run(tc.name, func(t *testing.T) {
+				mt := &mockTestingT{}
+				defer mt.Verify(t)
+				PreconditionSetEq(mt, "", []int{1, 2, 3}, []int{1, 2, 3})
+			})
+		}
 	})
 
 	t.Run("calls Fatalf and returns false if the given slice contains values not in the expected slice", func(t *testing.T) {
