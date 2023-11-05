@@ -37,3 +37,36 @@ func newEqFailure[T comparable](expr string, actual, expected T) *ExpectationFai
 		Reason:      fmt.Sprintf("got %v", actual),
 	}
 }
+
+// ExpectNeq logs a test failure if the given expression has the not-expected value.
+func ExpectNeq[T comparable](t TestingT, expr string, actual, notExpected T) bool {
+	t.Helper()
+	return Expect(t, neqCheck(expr, actual, notExpected))
+}
+
+// AssertNeq fails the test immediately if the given expression has the not-expected value.
+func AssertNeq[T comparable](t TestingT, expr string, actual, notExpected T) {
+	t.Helper()
+	Assert(t, neqCheck(expr, actual, notExpected))
+}
+
+// PreconditionNeq sets a precondition that the given expression does not have the not-expected value.
+func PreconditionNeq[T comparable](t TestingT, expr string, actual, notExpected T) {
+	t.Helper()
+	Precondition(t, neqCheck(expr, actual, notExpected))
+}
+
+func neqCheck[T comparable](expr string, actual, notExpected T) ExpectationCheck {
+	return func() *ExpectationFailure {
+		if notExpected != actual {
+			return nil
+		}
+		return newNeqFailure(expr, actual, notExpected)
+	}
+}
+
+func newNeqFailure[T comparable](expr string, actual, notExpected T) *ExpectationFailure {
+	return &ExpectationFailure{
+		Expectation: fmt.Sprintf("%s not to equal %v", expr, notExpected),
+	}
+}

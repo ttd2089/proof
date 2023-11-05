@@ -7,7 +7,7 @@ func TestExpectNil(t *testing.T) {
 	t.Run("returns true if the given value is nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		if !ExpectNil(mt, "", nil) {
+		if !ExpectNil(mt, "nilExpr()", nil) {
 			t.Errorf("expected ExpectNil to return true")
 		}
 	})
@@ -15,8 +15,8 @@ func TestExpectNil(t *testing.T) {
 	t.Run("calls Error and returns false if the given value is not nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		mt.ExpectError(newNilFailure("someExpr()", 2))
-		if ExpectNil(mt, "someExpr()", 2) {
+		mt.ExpectError(newNilFailure("nilExpr()", 2))
+		if ExpectNil(mt, "nilExpr()", 2) {
 			t.Errorf("expected ExpectNil to return false")
 		}
 	})
@@ -27,14 +27,14 @@ func TestAssertNil(t *testing.T) {
 	t.Run("does not fail the test if the given value is nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		AssertNil(mt, "", nil)
+		AssertNil(mt, "nilExpr()", nil)
 	})
 
 	t.Run("calls Fatalf if the given value is not nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		mt.ExpectFatalf(assertionFailedFmt, newNilFailure("someExpr()", 2))
-		AssertNil(mt, "someExpr()", 2)
+		mt.ExpectFatalf(assertionFailedFmt, newNilFailure("nilExpr()", 2))
+		AssertNil(mt, "nilExpr()", 2)
 	})
 }
 
@@ -43,14 +43,14 @@ func TestPreconditionNil(t *testing.T) {
 	t.Run("does not fail the test if the given value is nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		PreconditionNil(mt, "", nil)
+		PreconditionNil(mt, "nilExpr()", nil)
 	})
 
 	t.Run("calls Fatalf if the given value is not nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		mt.ExpectFatalf(preconditionFailedFmt, newNilFailure("someExpr()", 2))
-		PreconditionNil(mt, "someExpr()", 2)
+		mt.ExpectFatalf(preconditionFailedFmt, newNilFailure("nilExpr()", 2))
+		PreconditionNil(mt, "nilExpr()", 2)
 	})
 }
 
@@ -59,7 +59,7 @@ func TestExpectNotNil(t *testing.T) {
 	t.Run("returns true if the given value is not nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		if !ExpectNotNil(mt, "", 2) {
+		if !ExpectNotNil(mt, "nonNilExpr", 2) {
 			t.Errorf("expected ExpectNotNil to return true")
 		}
 	})
@@ -67,8 +67,8 @@ func TestExpectNotNil(t *testing.T) {
 	t.Run("calls Error and returns false if the given value is nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		mt.ExpectError(newNotNilFailure("someExpr()"))
-		if ExpectNotNil(mt, "someExpr()", nil) {
+		mt.ExpectError(newNotNilFailure("nonNilExpr()"))
+		if ExpectNotNil(mt, "nonNilExpr()", nil) {
 			t.Errorf("expected ExpectNotNil to return false")
 		}
 	})
@@ -79,14 +79,14 @@ func TestAssertNotNil(t *testing.T) {
 	t.Run("does not fail the test if the given value is not nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		AssertNotNil(mt, "", 2)
+		AssertNotNil(mt, "nonNilExpr", 2)
 	})
 
 	t.Run("calls Fatalf if the given value is nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		mt.ExpectFatalf(assertionFailedFmt, newNotNilFailure("someExpr()"))
-		AssertNotNil(mt, "someExpr()", nil)
+		mt.ExpectFatalf(assertionFailedFmt, newNotNilFailure("nonNilExpr()"))
+		AssertNotNil(mt, "nonNilExpr()", nil)
 	})
 }
 
@@ -95,13 +95,13 @@ func TestPreconditionNotNil(t *testing.T) {
 	t.Run("does not fail the test if the given value is not nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		PreconditionNotNil(mt, "", 2)
+		PreconditionNotNil(mt, "nonNilExpr", 2)
 	})
 
 	t.Run("calls Fatalf if the given value is nil", func(t *testing.T) {
 		mt := &mockTestingT{}
 		defer mt.Verify(t)
-		mt.ExpectFatalf(preconditionFailedFmt, newNotNilFailure("someExpr()"))
-		PreconditionNotNil(mt, "someExpr()", nil)
+		mt.ExpectFatalf(preconditionFailedFmt, newNotNilFailure("nonNilExpr()"))
+		PreconditionNotNil(mt, "nonNilExpr()", nil)
 	})
 }
